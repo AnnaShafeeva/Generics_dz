@@ -2,16 +2,18 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class MagicBox<T> {
-    T[] items;
+    private T[] items;
+    private Random random = new Random();
+    private int randomInt;
 
     public MagicBox(T[] items) {
         this.items = items;
     }
 
-    public boolean add(T item) {
+    public boolean add(T itemNew) {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null) {
-                items[i] = item;
+                items[i] = itemNew;
                 return true;
             }
         }
@@ -19,27 +21,20 @@ public class MagicBox<T> {
     }
 
     public T pick() {
-        Random random = new Random();
-        int randomInt = 0;
-        int j1 = 0;
-        for (T a : items) {
-            if (a != null) {
-                randomInt = random.nextInt(items.length);
-            } else {
-                for (T i : items) {
-                    if (i == null) {
-                        j1++;
-                    }
-                }
-                throw new RuntimeException("Коробка не заполнена, количество ячеек, которые надо заполнить: " + j1);
+        int itemNull = 0;
+        for (T item : items) {
+            if (item == null) {
+                itemNull++;
+                throw new RuntimeException("Коробка не заполнена, количество ячеек, которые надо заполнить: " + itemNull);
             }
         }
+
+        randomInt = random.nextInt(items.length);
         return items[randomInt];
     }
 
     public String toString() {
         return Arrays.toString(items);
     }
-
 
 }
